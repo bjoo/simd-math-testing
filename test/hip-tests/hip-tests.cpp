@@ -87,7 +87,7 @@ void sqrtTest()
 TEST(HIPTests, TestSqrt)
 {
   sqrtTest<float>();
-  // sqrtTest<double>();
+  sqrtTest<double>();
 }
 
 //
@@ -131,10 +131,11 @@ void expTest()
 TEST(HIPTests, TestExp)
 {
   expTest<float>();
-  // expTest<double>();
+  expTest<double>();
 }
+
 //
-// SQRT
+// CBRT 
 template<typename T>
 void cbrtTest()
 {
@@ -174,5 +175,5 @@ void cbrtTest()
 TEST(HIPTests, TestCBRT)
 {
   cbrtTest<float>();
-  //cbrtTest<double>();
+  cbrtTest<double>();
 }

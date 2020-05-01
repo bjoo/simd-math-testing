@@ -29,4 +29,4 @@ endmacro()
 # and ARGN is test1.cpp
 package_add_test(tut_ex9 ./exercise_9_solution.cpp)
 package_add_test(tut_ex10 ./exercise_10_solution.cpp)
-package_add_test(hip_tests ./hip-tests/hip-abs-test.cpp)
+package_add_test(hip_tests ./hip-tests/hip-tests.cpp)
