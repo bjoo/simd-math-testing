@@ -29,7 +29,11 @@ endmacro()
 package_add_test(tut_ex9 ./exercise_9_solution.cpp)
 
 if( ${ENABLE_AVX_TESTS} )
-package_add_test(permute ./avx-tests/test_simd_avx_permute.cpp)
+package_add_test(permute-avx ./avx-tests/test_simd_avx_permute.cpp)
+endif()
+
+if( ${ENABLE_AVX512_TESTS} )
+package_add_test(permute-avx512 ./avx512-tests/test_simd_avx512_permute.cpp)
 endif()
 
 
