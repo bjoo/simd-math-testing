@@ -6,6 +6,11 @@ project(QDPXXKokkosPlay VERSION 0.1
 
 include(CTest)
 
+option(ENABLE_AVX_TESTS "Enable AVX Specific tests" FALSE)
+option(ENABLE_HIP_TESTS "Enable HIP Specific tests" FALSE)
+option(ENABLE_AVX512_TESTS "Enable AVX512 Specific tests" FALSE)
+option(ENABLE_CUDA_TESTS "Enable CUDA Specific tests" FALSE)
+
 set(SIMD_DIR "" CACHE STRING "")
 set(Kokkos_DIR "" CACHE STRING "")
 

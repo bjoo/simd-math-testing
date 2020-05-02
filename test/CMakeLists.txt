@@ -25,8 +25,20 @@ macro(package_add_test TESTNAME)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
 endmacro()
 
-# Here TESTNAME is test1
-# and ARGN is test1.cpp
+# General tests (simd-common)
 package_add_test(tut_ex9 ./exercise_9_solution.cpp)
-package_add_test(tut_ex10 ./exercise_10_solution.cpp)
+
+if( ${ENABLE_AVX_TESTS} )
+package_add_test(permute ./avx-tests/test_simd_avx_permute.cpp)
+endif()
+
+
+# CUDA Specific tests ( simd_abi::cuda_warp<32> )
+if( ${ENABLE_CUDA_TESTS} )
+package_add_test(tut_ex10 ./cuda-tests/exercise_10_solution.cpp)
+endif()
+
+# HIP Specific Tests ( simd_abi::hip_wavefront<64> )
+if( ${ENABLE_HIP_TESTS} ) 
 package_add_test(hip_tests ./hip-tests/hip-tests.cpp)
+endif()
