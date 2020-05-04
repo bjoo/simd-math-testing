@@ -17,7 +17,6 @@ TEST(TestSIMDPermute, TestAVXFloatPermute)
 	using control_t = simd::simd<int, simd::simd_abi::avx>;
 
 	using storage_t = typename simd_t::storage_type;
-	using control_storage_t = typename control_t::storage_type;
 
 	constexpr int veclen = simd_t::size();
 	ASSERT_EQ( veclen, 8);
@@ -31,8 +30,9 @@ TEST(TestSIMDPermute, TestAVXFloatPermute)
 	for(int i=0; i < 8; ++i) {
 		vec_in_scalar(i) = i;
 	}
-
-	control_storage_t identity({0,1,2,3,4,5,6,7});
+  
+	int identity_mask[8] = {0,1,2,3,4,5,6,7}; 
+	auto identity = simd::simd_utils<simd_t>::make_permute(identity_mask);
 
 	simd_vec_out(0) = simd::permute( control_t(identity), simd_t(simd_vec_in(0)));
 
@@ -42,7 +42,9 @@ TEST(TestSIMDPermute, TestAVXFloatPermute)
 	}
 	std::cout << "\n";
 
-	control_storage_t reverse({7,6,5,4,3,2,1,0});
+	int reverse_mask[8] = {7,6,5,4,3,2,1,0};
+	auto reverse = simd::simd_utils<simd_t>::make_permute(reverse_mask);
+
 	simd_vec_out(0) = simd::permute( control_t(reverse), simd_t(simd_vec_in(0)) );
 	for(int i=0; i < veclen; ++i) {
 		std::cout << vec_out_scalar(i) << " ";
@@ -72,7 +74,8 @@ TEST(TestSIMDPermute, TestAVXDoublePermute)
 		vec_in_scalar(i) = i;
 	}
 
-	control_storage_t identity({0,1,2,3});
+	int identity_mask[4] = {0,1,2,3};
+	auto identity = simd::simd_utils<simd_t>::make_permute(identity_mask);
 
 	simd_vec_out(0) = simd::permute( control_t(identity), simd_t(simd_vec_in(0)));
 
@@ -82,7 +85,9 @@ TEST(TestSIMDPermute, TestAVXDoublePermute)
 	}
 	std::cout << "\n";
 
-	control_storage_t reverse({3,2,1,0});
+	int reverse_mask[4] = {3,2,1,0} ;
+	auto reverse = simd::simd_utils<simd_t>::make_permute(reverse_mask);
+
 	simd_vec_out(0) = simd::permute( control_t(reverse), simd_t(simd_vec_in(0)) );
 	for(int i=0; i < veclen; ++i) {
 		std::cout << vec_out_scalar(i) << " ";
