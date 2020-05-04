@@ -18,7 +18,6 @@ void testGPUSIMD()
   using control_t = simd::simd<int, simd::simd_abi::hip_wavefront<veclen>>;
 
   using storage_t = typename simd_t::storage_type;
-  using control_storage_t = typename control_t::storage_type;
   
   ASSERT_EQ( veclen, simd_t::size());
 
@@ -35,11 +34,14 @@ void testGPUSIMD()
   }
   Kokkos::deep_copy(vec_in_scalar,h_vec_in_scalar);
   
-  control_storage_t identity;
-  for(int i=0; i < veclen; ++i) identity[i]=i;
-  control_storage_t reverse;
-  for(int i=0; i < veclen; ++i) reverse[i] =(veclen-1)-i;
-  
+  int identity_mask[veclen];
+  for(int i=0; i < veclen; ++i) identity_mask[i]=i;
+  int  reverse_mask[veclen];
+  for(int i=0; i < veclen; ++i) reverse_mask[i] =(veclen-1)-i;
+ 
+  auto identity = simd::simd_utils<simd_t>::make_permute(identity_mask);
+  auto reverse = simd::simd_utils<simd_t>::make_permute(reverse_mask);
+ 
   Kokkos::parallel_for("SIMD", Kokkos::TeamPolicy<>(1,1,simd_t::size()),
       KOKKOS_LAMBDA(const Kokkos::TeamPolicy<>::member_type& team) {      
       simd_vec_out(0) = simd::permute( control_t(identity), simd_t(simd_vec_in(0)));
